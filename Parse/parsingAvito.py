@@ -34,19 +34,21 @@ def get_cont(html):
             'link': 'https://www.avito.ru' + item.find('a', class_ = 'link-link-MbQDP').get('href'),
             'city': item.find('div', class_ = 'geo-georeferences-Yd_m5').get_text(),
             'price': item.find('span', class_ = 'price-price-BQkOZ').get_text(),
-            'date': item.find('div', class_ = 'date-text-VwmJG').get_text()
+            'date': item.find('div', class_ = 'date-text-VwmJG').get_text(),
+            'image': item.find('img', class_ = 'photo-slider-image-_Dc4I')
         })  
     return cars
 
 def save_file(items, path):
     with open(path, 'w', newline='') as file:
         writer = csv.writer(file, delimiter = ';')
-        writer.writerow(['Название', 'Ссылка', 'Город', 'Дата выхода'])
+        writer.writerow(['Название', 'Ссылка', 'Город', 'Дата выхода', 'Цена'])
 
-        print(items)
-
+        x = []
         for item in items:
-            writer.writerow([item['title'], item['link'], item['city'], item['date']])
+            x = item['price']
+            x = x.replace('₽', ' ')
+            writer.writerow([item['title'], item['link'], item['city'], item['date'], x])
 
 
 def parse():
@@ -61,6 +63,7 @@ def parse():
             cars.extend(get_cont(html.text))
 
         save_file(cars, FILE)
+        print("Парсинг завершён")
     else:
         print('Ошибка')
 
