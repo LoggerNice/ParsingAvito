@@ -42,13 +42,13 @@ def get_cont(html):
 def save_file(items, path):
     with open(path, 'w', newline='') as file:
         writer = csv.writer(file, delimiter = ';')
-        writer.writerow(['Название', 'Ссылка', 'Город', 'Дата выхода', 'Цена'])
+        writer.writerow(['Название', 'Ссылка', 'Город', 'Дата выхода', 'Цена', 'Фото'])
 
         x = []
         for item in items:
             x = item['price']
             x = x.replace('₽', ' ')
-            writer.writerow([item['title'], item['link'], item['city'], item['date'], x])
+            writer.writerow([item['title'], item['link'], item['city'], item['date'], x, item['image']])
 
 
 def parse():
